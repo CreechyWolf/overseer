@@ -29,16 +29,16 @@ public class DiscordApiClient
 		httpClient = HttpClientBuilder.create().build();
 	}
 
-	public String sendGetMessagesRequest()
+	public String sendGetMessagesRequest(String channelID)
 	{
-		HttpGet getRequest = new HttpGet(DISCORD_ENDPOINT + "/channels/540374208950173729/messages?limit=6");
+		HttpGet getRequest = new HttpGet(DISCORD_ENDPOINT + "/channels/" + channelID + "/messages?limit=6");
 
 		return sendRequest(getRequest);
 	}
 	
-	public String sendCreateMessageRequest(String messageToSend)
+	public String sendCreateMessageRequest(String messageToSend, String channelID)
 	{
-		HttpPost postRequest = new HttpPost(DISCORD_ENDPOINT + "/channels/540374208950173729/messages");
+		HttpPost postRequest = new HttpPost(DISCORD_ENDPOINT + "/channels/" + channelID + "/messages");
 		List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 		pairs.add(new BasicNameValuePair("content", messageToSend));
 
@@ -64,9 +64,9 @@ public class DiscordApiClient
 			}
 		} catch (final IOException | ParseException e)
 		{
-			// log.error("Error sending request");
+			System.err.println("Error sending request: " + e.getMessage());
 		}
-		// log.info("Response: " + responseString);
+		System.out.println("Response: " + responseString);
 		return responseString;
 	}
 }

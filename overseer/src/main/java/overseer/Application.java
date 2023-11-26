@@ -17,12 +17,15 @@ public class Application implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception
 	{
+		String botMsg = args[0];
+		String channelID = args[1];
+		String chatCmd = args[2];
 		DiscordMessageProcessor messageProcessor = new DiscordMessageProcessor();
 
 		LocalDateTime lastRunTime = null;
 		while(true) 
 		{
-			messageProcessor.processMessages(lastRunTime);
+			messageProcessor.processMessages(lastRunTime, botMsg, channelID, chatCmd);
 			lastRunTime = LocalDateTime.now();
 			Thread.sleep(10000);
 		}
